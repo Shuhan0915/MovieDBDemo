@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MovieDBDemo</string>
+    <string name="main_activity_btn_search">Search</string>
+    <string name="main_activity_text_placeholder">Hello World!</string>
+</resources>
