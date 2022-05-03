@@ -1,52 +1,42 @@
 package com.example.moviedbdemo
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.lifecycle.lifecycleScope
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.moviedbdemo.adapter.MovieListAdapter
 import com.example.moviedbdemo.databinding.ActivityMainBinding
-import com.example.moviedbdemo.model.MovieModel
+import com.example.moviedbdemo.model.Movie
 import com.example.moviedbdemo.retrofit.MovieAPIClient
 import com.example.moviedbdemo.retrofit.MovieAPIInterface
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import retrofit2.Response
+import com.example.moviedbdemo.viewmodel.RetrofitViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var activityMainBinding: ActivityMainBinding
-
-    //    private val API_KEY = "f4393d622fa954bb634e35c5330f9ae9"
-    private lateinit var retrofitInterface: MovieAPIInterface
+    private lateinit var movieListAdapter: MovieListAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         val view: View = activityMainBinding.root
         setContentView(view)
-        initRetrofit()
-        activityMainBinding.btnSearch.setOnClickListener { getLatestMovie() };
-
-    }
-
-    private fun initRetrofit() {
-        retrofitInterface = MovieAPIClient.getRetrofitService()
-    }
-
-    private fun getLatestMovie() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val response: Response<MovieModel> =
-                retrofitInterface.getLatestMovie()
-            // suspend, continue when get response
-            withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    val latestMovie: MovieModel? = response.body()
-                    activityMainBinding.testTextView.text = latestMovie?.originalTitle
-                } else {
-                    Log.i("Error ", "Response failed")
-                    Log.i("Error ", response.toString())
-                }
+        val retrofitViewModel: RetrofitViewModel =
+            ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(
+                RetrofitViewModel::class.java
+            )
+        initMovieList()
+        retrofitViewModel.movieList.observe(this, Observer { movieList ->
+            movieList?.let {
+                movieListAdapter.addResults(it as MutableList<Movie>)
             }
-        }
+        })
     }
+
+    private fun initMovieList() {
+        movieListAdapter = MovieListAdapter(this)
+        activityMainBinding.recyclerViewMovieList.adapter = movieListAdapter
+        activityMainBinding.recyclerViewMovieList.layoutManager = GridLayoutManager(this, 2)
+    }
+
 }
