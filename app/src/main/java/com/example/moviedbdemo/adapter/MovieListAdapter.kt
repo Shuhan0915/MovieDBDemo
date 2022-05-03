@@ -1,14 +1,18 @@
 package com.example.moviedbdemo.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.moviedbdemo.MovieDetailActivity
 import com.example.moviedbdemo.R
 import com.example.moviedbdemo.databinding.MovieListLayoutBinding
 import com.example.moviedbdemo.model.Movie
-import com.example.moviedbdemo.retrofit.MovieAPIClient.RetrofitManager.POSTER_URL
+import com.example.moviedbdemo.retrofit.MovieAPIClient.RetrofitManager.POSTER_URL_W200
+
 /*
     Movie List Adapter to hold the latest movie list data and bind data into recycler view
  */
@@ -31,20 +35,20 @@ class MovieListAdapter(var context: Context, var movieList: MutableList<Movie> =
         viewHolder.binding.textViewVoteAverage.text = item.voteAverage
         item.posterPath?.let {
             Glide.with(context)
-                .load(POSTER_URL + it)
+                .load(POSTER_URL_W200 + it)
                 .centerCrop()
                 .placeholder(R.drawable.loading_image)
                 .into(viewHolder.binding.imageViewPoster)
         }
-
-        //TODO("card view click event")
-        // viewholder binding with its data at the specified position
-        //        viewHolder.binding.ivItemDelete.setOnClickListener(
-        //            View.OnClickListener
-        //            {
-        //                movieList.remove(result)
-        //                notifyDataSetChanged();
-        //            })
+        // register card view click event
+        // on click card view, navigate to the movie detail activity
+        viewHolder.binding.cardView.setOnClickListener(
+            View.OnClickListener
+            {
+                val intent = Intent(context, MovieDetailActivity::class.java)
+                intent.putExtra(context.getString(R.string.movie_id), item.movieId)
+                context.startActivity(intent)
+            })
     }
 
     override fun getItemCount() = movieList.size

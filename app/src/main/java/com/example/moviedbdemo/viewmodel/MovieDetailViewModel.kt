@@ -8,27 +8,19 @@ import androidx.lifecycle.viewModelScope
 import com.example.moviedbdemo.model.Movie
 import com.example.moviedbdemo.retrofit.MovieAPIClient
 import com.example.moviedbdemo.retrofit.MovieAPIInterface
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-/*
-    View model to help deal with web process
- */
-class RetrofitViewModel(application: Application) : AndroidViewModel(application) {
-
+class MovieDetailViewModel(application: Application) : AndroidViewModel(application) {
     private var retrofitInterface: MovieAPIInterface = MovieAPIClient.getRetrofitService()
-    var movieList: MutableLiveData<List<Movie>> = MutableLiveData()
-    private var page:Int = 0;
-    init {
-        fetchLatestMovieList()
-    }
+    var movie: MutableLiveData<Movie>  = MutableLiveData<Movie>()
 
-    fun fetchLatestMovieList() {
-        page++
+    fun fetchMovie(movieID:Int){
         viewModelScope.launch(Dispatchers.IO) {
 
-            val response = retrofitInterface.getLatestReleasedMovie(page = page)
+            val response = retrofitInterface.getMovieByID(movieID)
             if (response.isSuccessful) {
-                movieList.postValue(response.body()?.results)
+                movie.postValue(response.body())
                 Log.i("Row Response ", response.raw().toString())
                 Log.i("Success ", response.body().toString())
             } else {
@@ -38,8 +30,4 @@ class RetrofitViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        viewModelScope.cancel()
-    }
 }

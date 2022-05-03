@@ -29,4 +29,8 @@ data class Movie(
     var title: String = "",
     @SerializedName("poster_path")
     var posterPath: String? = "",
+    @SerializedName("overview")
+    var overview: String? = "",
+    @SerializedName("release_date")
+    var releaseDate: String? = ""
 ) : Parcelable
