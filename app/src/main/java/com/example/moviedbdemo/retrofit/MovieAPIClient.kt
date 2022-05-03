@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
  */
 class MovieAPIClient {
     companion object RetrofitManager {
-        private val BASE_URL = "https://api.themoviedb.org/3/"
+        private val BASE_URL = "https://api.themoviedb.org/3adef/"
         const val RELEASE_DATE_DESC = "release_date.desc"
         const val POSTER_URL_W200 = "https://image.tmdb.org/t/p/w200"
         const val POSTER_URL_W500 = "https://image.tmdb.org/t/p/w500"

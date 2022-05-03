@@ -3,4 +3,5 @@
     <string name="main_activity_btn_search">Search</string>
     <string name="main_activity_text_placeholder">Hello World!</string>
     <string name="movie_id">MovieID</string>
+    <string name="search_movie_placeholder">Please enter query to search</string>
 </resources>

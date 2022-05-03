@@ -27,6 +27,7 @@ interface MovieAPIInterface {
     ): Response<Movie>
 
     /*
+         Get latest released movie list
          https://api.themoviedb.org/3/discover/movie?
          api_key=f4393d622fa954bb634e35c5330f9ae9
          &sort_by=release_date.desc
@@ -40,4 +41,17 @@ interface MovieAPIInterface {
         @Query("page") page: Int = 1,
         @Query("release_date") releaseDate: LocalDate = LocalDate.now(),
     ): Response<MovieList>
+
+    /*
+        search movie by query
+        https://api.themoviedb.org/3/search/movie?
+        api_key=f4393d622fa954bb634e35c5330f9ae9
+        &query=fly
+     */
+    @GET("search/movie")
+    suspend fun searchMovie(
+        @Query("api_key") API_KEY: String = BuildConfig.MOVIE_API_KEY,
+        @Query("query") query: String = "",
+        @Query("page") page: Int = 1
+        ): Response<MovieList>
 }

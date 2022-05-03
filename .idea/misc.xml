@@ -3,10 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../Library/Android/sdk/platforms/android-31/data/res/layout/activity_list_item.xml" value="0.1" />
+        <entry key="../../Library/Android/sdk/platforms/android-31/data/res/layout/simple_list_item_1.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1025" />
         <entry key="app/src/main/res/layout/activity_movie_detail.xml" value="0.1" />
         <entry key="app/src/main/res/layout/movie_detail_fragment.xml" value="0.1" />
         <entry key="app/src/main/res/layout/movie_list_layout.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/suggestion_item_layout.xml" value="0.1" />
+        <entry key="app/src/main/res/menu/search_view.xml" value="0.21875" />
       </map>
     </option>
   </component>
